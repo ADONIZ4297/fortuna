@@ -1,3 +1,4 @@
+import 'package:fortuna/service/enum.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 class Info {
@@ -6,7 +7,8 @@ class Info {
   int day;
   int hour;
   int minuite;
-  Info(this.year, this.month, this.day, this.hour, this.minuite);
+  Gender gender;
+  Info(this.year, this.month, this.day, this.hour, this.minuite, this.gender);
 }
 
 final infoProvider = StateProvider<Info?>((ref) {

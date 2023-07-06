@@ -32,8 +32,8 @@ class BasicGrid extends ConsumerWidget {
           childAspectRatio: 1 / 1, //item 의 가로 1, 세로 2 의 비율
         ),
         itemBuilder: (BuildContext context, int index) {
-          return Text(list[index])
-              // return Text(eToChinese(list[index]))
+          // return Text(list[index])
+          return Text(eToChinese(list[index]))
               .fontSize(40)
               .bold()
               .center()

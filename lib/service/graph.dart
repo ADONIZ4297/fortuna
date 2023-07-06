@@ -92,14 +92,14 @@ var table5List = ['장생', '목욕', '관대', '건록', '제왕', '쇠', '병'
 var table5 = {
   'a': 'vklmnopqrstu',
   'b': 'qponmlkvutsr',
-  'c': 'mnopqrstukkl',
-  'd': 'tsrqponmlvvu',
-  'e': 'mnopqrstukkl',
-  'f': 'tsrqponmlvvu',
-  'g': 'pqrstuvklnno',
-  'h': 'kvutsrqpomml',
-  'i': 'stuvklmnoqqr',
-  'j': 'nmlkvutsrppo',
+  'c': 'mnopqrstuvkl',
+  'd': 'tsrqponmlkvu',
+  'e': 'mnopqrstuvkl',
+  'f': 'tsrqponmlvku',
+  'g': 'pqrstuvklmno',
+  'h': 'kvutsrqponml',
+  'i': 'stuvklmnopqr',
+  'j': 'nmlkvutsrqpo',
 };
 var table6_1List = ['양인', '비인', '암록', '금여록', '관록', '명위록', '시록', '홍염', '내록', '삼귀기인'];
 var table6_1 = {
@@ -175,3 +175,89 @@ var table6_5 = {
   'u': 'snopqrlmkvksk',
   'v': 'pklmnouvtsltv',
 };
+Map<List, List<String>> table7 = {
+  ['ak', 'bl', 'cm', 'd', 'neo', 'fp', 'gq', 'is', 'jt']: ['u', 'v'],
+  ['au', 'bv', 'ck', 'dl', 'emf', 'n', 'go', 'hp', 'iq', 'jr']: ['s', 't'],
+  ['as', 'bt', 'cu', 'dv', 'ek', 'fl', 'gm', 'hn', 'io', 'jp']: ['q', 'r'],
+  ['aq', 'br', 'cs', 'dt', 'eu', 'fv', 'gk', 'hl', 'im', 'jn']: ['o', 'p'],
+  ['ao', 'bp', 'cq', 'dr', 'es', 'ft', 'gu', 'hv', 'il']: ['m', 'n'],
+  ['am', 'bn', 'co', 'dp', 'eq', 'fr', 'gs', 'ht', 'iu', 'jv']: ['k', 'l'],
+};
+Map<String, String> table8 = {
+  'a': 'n',
+  'b': 'o',
+  'c': 'q',
+  'd': 'r',
+  'e': 'q',
+  'f': 'r',
+  'g': 't',
+  'h': 'u',
+  'i': 'k',
+  'j': 'l',
+};
+Map<String, String> table9 = {
+  'k': 'rp',
+  'l': 'qs',
+  'm': 'tr',
+  'n': 'su',
+  'o': 'vt',
+  'p': 'uk',
+  'q': 'lv',
+  'r': 'km',
+  's': 'nl',
+  't': 'mo',
+  'u': 'pn',
+  'v': 'oq',
+};
+
+var table10 = [
+  'nmlkvutsrqpo',
+  'mlkvutsrqpon',
+  'lkvutsrqponm',
+  'kvutsrqponml',
+  'vutsrqponmlk',
+  'utsrqponmlkv',
+  'tsrqponmlkvu',
+  'srqponmlkvut',
+  'rqponmlkvuts',
+  'qponmlkvutsr',
+  'ponmlkvutsrq',
+  'onmlkvutsrqp'
+];
+
+var table11A = {
+  'a': [0, 1],
+  'b': [2, 3],
+  'c': [4, 5],
+  'd': [6, 7],
+  'e': [8, 9],
+  'f': [10, 11],
+  'g': [12, 13],
+  'h': [14, 15],
+  'i': [16, 17],
+  'j': [18, 19],
+};
+var table11B = ['m', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'k', 'l'];
+
+var table11 = [
+  ['b', 'g', 'g', 'j', 'j', 'j', 'g', 'g', 'g', 'g', 'c', 'c'],
+  ['j', 'ecfd', 'id', 'gd', 'gd', 'gd', 'id', 'cd', 'iajd', 'edc', 'cg', 'cg'],
+  ['c', 'c', 'j', 'j', 'j', 'j', 'c', 'j', 'j', 'c', 'c', 'c'],
+  ['j', 'j', 'ec', '', 'c', 'c', 'fj', 'dc', 'h', 'e', '', ''],
+  ['i', 'i', 'i', 'i', 'i', 'i', 'i', 'i', 'a', 'a', 'i', 'i'],
+  ['g', 'f', 'a', 'jg', 'g', 'g', 'e', 'j', 'i', 'gei', 'fe', 'a'],
+  ['a', 'g', 'a', 'a', 'i', 'a', 'a', 'a', 'a', 'a', 'a', 'a'],
+  ['g', 'a', 'g', 'g', 'jg', 'ig', 'ceg', 'ceg', 'eg', 'g', 'g', 'g'],
+  ['c', 'c', 'a', 'a', 'i', 'j', 'c', 'c', 'a', 'a', 'c', 'c'],
+  ['ja', 'ja', 'jc', 'jc', 'ca', 'ca', 'ja', 'j', 'jc', 'c', 'a', 'a'],
+  ['c', 'a', 'c', 'j', 'j', 'j', 'c', 'c', 'a', 'c', 'c', 'c'],
+  ['ag', 'jc', 'ja', 'c', 'c', 'c', 'j', 'j', 'jc', 'ea', 'ea', 'ea'],
+  ['e', 'd', 'a', 'i', 'i', 'd', 'd', 'd', 'a', 'd', 'd', 'c'],
+  ['adci', 'acg', 'dij', 'ecd', 'j', 'a', 'a', 'ca', 'i', 'c', 'ca', 'da'],
+  ['f', 'i', 'i', 'i', 'i', 'i', 'i', 'i', 'i', 'i', 'c', 'c'],
+  ['ig', 'a', 'a', 'ja', 'jf', 'ga', 'ea', 'a', 'a', 'c', 'eai', 'ief'],
+  ['g', 'e', 'g', 'i', 'j', 'h', 'e', 'a', 'a', 'e', 'e', 'c'],
+  ['ec', 'hg', 'g', 'ghj', 'hg', 'a', 'd', 'g', 'c', 'gc', 'c', 'da'],
+  ['h', 'g', 'c', 'h', 'g', 'g', 'd', 'h', 'h', 'g', 'c', 'c'],
+  ['c', 'h', 'ha', '', 'ihj', 'ijh', '', 'c', 'ija', 'hed', 'h', 'j']
+];

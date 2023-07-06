@@ -21,7 +21,7 @@ String sToEnglsh(int num) {
     case 0:
       return "j";
     default:
-      return "";
+      return "j";
   }
 }
 
@@ -52,11 +52,11 @@ String tToEnglsh(int num) {
     case 12:
       return "v";
     default:
-      return "";
+      return "v";
   }
 }
 
-String eToChinese(String e) {
+String eToChinese(String? e) {
   switch (e) {
     case "a":
       return "甲";
@@ -102,6 +102,8 @@ String eToChinese(String e) {
       return "戌";
     case 'v':
       return "亥";
+    case null:
+      return "";
     default:
       return "";
   }

@@ -1,20 +1,28 @@
 import 'dart:convert';
+import 'dart:io';
 
+import 'package:excel/excel.dart';
 import 'package:fortuna/provider/infoProvider.dart';
+import 'package:fortuna/provider/solarDatesProvider.dart';
+import 'package:fortuna/service/enum.dart';
 import 'package:fortuna/service/graph.dart';
 import 'package:fortuna/service/extension.dart';
 import 'package:fortuna/service/numberToEnglish.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:http/http.dart';
+import 'package:klc/klc.dart';
 import 'package:lunar/calendar/Lunar.dart';
 
 class Fortune {
   late final DateTime date;
+  late final DateTime lunarDate;
   late final int year;
   late final int month;
   late final int day;
   late final int hour;
   late final int minutes;
+  late final Gender gender;
+  late final bool reverse;
   late String s;
   late String t;
   late String v;
@@ -27,14 +35,32 @@ class Fortune {
   late List<List> graph3;
   late List<String> graph5;
   late List<List> graph6 = [[], [], [], []];
+  late List<String> graph7 = [];
+  late String graph8;
+  late String graph9;
+  late String graph10;
+  late List<String> graph11;
+  late List<String> graph14;
+  late List<String> graph15;
+  late List<String> graph16;
+  late List<DateTime> solarDates;
+  late DateTime solarDate;
 
-  Fortune(Info info) {
+  Fortune(Info info, List<DateTime> dates) {
     year = info.year;
     month = info.month;
     day = info.day;
     hour = info.hour;
     minutes = info.minuite;
+    gender = info.gender;
     date = DateTime(info.year, info.month, info.day, info.hour, info.minuite);
+    var lunar = Lunar.fromDate(date);
+    lunarDate = DateTime(lunar.getYear(), lunar.getMonth(), lunar.getDay(), lunar.getHour(), lunar.getMinute());
+    print(lunarDate);
+
+    var index = dates.indexWhere((element) => element.isAfter(lunarDate));
+    solarDate = dates[index - 1];
+
     //년의 간지
     s = sToEnglsh((info.year + 7) % 10);
     t = tToEnglsh((info.year + 9) % 12);
@@ -44,11 +70,34 @@ class Fortune {
     //일의 간지
     calcDay();
     calcTime();
+    //역운 순운
+    if (p == 'a' || p == 'c' || p == 'e' || p == 'g' || p == 'i') {
+      if (gender == Gender.male) {
+        reverse = false;
+      } else {
+        reverse = true;
+      }
+    } else {
+      if (gender == Gender.male) {
+        reverse = true;
+      } else {
+        reverse = false;
+      }
+    }
+
     calcGraph1();
-    // calcGraph2();
+    calcGraph2();
     calcGraph3();
     calcGraph5();
     calcGraph6();
+    calcGraph7();
+    calcGraph8();
+    calcGraph9();
+    calcGraph10();
+    calcGraph11();
+    calcGraph14();
+    calcGraph15();
+    calcGraph16();
     // int p = (4*c+[c/4]+5n+[n/4]+[(3m+3)/5]+d+7)%10;
   }
 
@@ -71,12 +120,8 @@ class Fortune {
   }
 
   void calcGraph6() {
-    // print(p);
-    // print(table6[p]);
-    // print(q);
     var list = [b, q, u, t];
-    print(u);
-    print(list);
+
     for (var j = 0; j < 4; j++) {
       for (var i = 0; i < table6_1[p]!.length; i++) {
         if (table6_1[p]![i].contains(list[j])) {
@@ -105,42 +150,170 @@ class Fortune {
     if ([a, p, b, v, u, s, t].indexWhere((element) => element == table6_4[q]) != -1) {
       graph6[1].add("화개");
     }
-    //표 6-5
-    graph6[0].add(table6_5List[table6_5[q]!.split('').indexWhere((element) => element == b)]);
-    graph6[2].add(table6_5List[table6_5[q]!.split('').indexWhere((element) => element == u)]);
-    graph6[3].add(table6_5List[table6_5[q]!.split('').indexWhere((element) => element == t)]);
+    // //표 6-5
 
-    //표 6-6
-    // print(table6List[table6['b']!.indexWhere((element) => element.contains('u'))]);
-    print(graph6);
+    for (var i = 0; i < 13; i++) {
+      if (table6_5[q]!.split('')[i] == b) {
+        graph6[0].add(table6_5List[i]);
+      }
+    }
+    for (var i = 0; i < 13; i++) {
+      if (table6_5[q]!.split('')[i] == u) {
+        graph6[2].add(table6_5List[i]);
+      }
+    }
+    for (var i = 0; i < 13; i++) {
+      if (table6_5[q]!.split('')[i] == t) {
+        graph6[3].add(table6_5List[i]);
+      }
+    }
+
+    // //표 6-6
+
+    if (['io', 'go', 'gu', 'eu'].indexWhere((element) => element == p + q) != -1) {
+      graph6[1].add("괴강");
+    }
+    if (['ao', 'bp', 'is', 'dv', 'go', 'eu', 'hp', 'jv', 'fl'].indexWhere((element) => element == p + q) != -1) {
+      graph6[1].add("십악대살");
+    }
+    var list2 = [a + b, p + q, v + u, s + t];
+    for (var i = 0; i < 4; i++) {
+      if (['eo', 'dl', 'cu', 'br', 'ao', 'ji', 'iu'].indexWhere((element) => element == list2[i]) != -1) {
+        graph6[i].add("백호대살");
+      }
+    }
+
+    var tang = {
+      'l': ['q', 'r', 'u'],
+      'm': ['s', 'p'],
+      'q': ['l', 'o', 'q'],
+    };
+    var bq = {
+      b: ['a', 'p', 'q', 'v', 'u', 's', 't'],
+      q: ['a', 'p', 'b', 'v', 'u', 's', 't'],
+    };
+    var k = 0;
+    for (var map in bq.entries) {
+      if (tang[map.key] != null) {
+        if (map.value.where((element) => tang[map.key]!.contains(element)).isNotEmpty) {
+          graph6[k].add('탕화살');
+        }
+      }
+      k += 1;
+    }
+  }
+
+  void calcGraph7() {
+    for (var map in table7.entries) {
+      if (map.key.where((element) => element == p + q).isNotEmpty) {
+        graph7 = map.value;
+      }
+    }
+  }
+
+  void calcGraph8() {
+    graph8 = table8[p]!;
+  }
+
+  void calcGraph9() {
+    if (gender == Gender.male) {
+      graph9 = table9[t]![0];
+    } else {
+      graph9 = table9[t]![1];
+    }
+  }
+
+  void calcGraph10() {
+    var kv = ['k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v'];
+    var ml = ['m', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'k', 'l'];
+
+    graph10 = table10[kv.indexWhere((element) => element == q)][ml.indexWhere((element) => element == u)];
+  }
+
+  void calcGraph11() {
+    var index = table11B.indexWhere((element) => element == u);
+    graph11 = [table11[table11A[p]![0]][index], table11[table11A[p]![1]][index]];
+  }
+
+  void calcGraph14() {
+    graph14 = [
+      '',
+      '',
+      '',
+      '',
+      '',
+      '',
+      '',
+      '',
+      '',
+      '',
+      v + u,
+    ];
+    var aa = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j'];
+    var bb = ['m', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'k', 'l'];
+    if (reverse) {
+      aa = aa.reversed.toList();
+      bb = bb.reversed.toList();
+    }
+    var index1 = aa.indexWhere((element) => element == v);
+    var index2 = bb.indexWhere((element) => element == u);
+    for (var i = 0; i < 10; i++) {
+      if (index1 + 1 >= aa.length) {
+        index1 = 0;
+      } else {
+        index1 += 1;
+      }
+      if (index2 + 1 >= bb.length) {
+        index2 = 0;
+      } else {
+        index2 += 1;
+      }
+      graph14[i] = aa[index1] + bb[index2];
+    }
+  }
+
+  void calcGraph15() {
+    graph15 = [''];
+    for (var i = 0; i < 10; i++) {
+      graph15.add(table1List[table1[graph14[i][0]]!.split('').indexWhere((element) => element == graph14[i + 1][0])]);
+    }
+  }
+
+  void calcGraph16() {
+    graph16 = [''];
+    print(graph14);
+    for (var i = 0; i < 10; i++) {
+      // print(
+      //   table5[graph14[i][0]]!.split('').indexWhere((element) => element == graph14[i + 1][1]),
+      // );
+      // print(table5[graph14[i][0]]!.split(''));
+      // print(table5[graph14[i][1]]!.split(''));
+      // graph16.add(table5List[table1[graph14[i][0]]])
+      graph16.add(table5List[table5[graph14[i][0]]!.split('').indexWhere((element) => element == graph14[i + 1][1])]);
+    }
+    print(graph16);
   }
 
   void calcGraph2() async {
+    //음력 변환부터
     // graph3Table[b]!.keys;
+    print(lunarDate);
+    print(solarDate);
+    var difference = lunarDate.difference(solarDate).inHours;
+    print(difference);
 
-    var uri = Uri.http('apis.data.go.kr', '/B090041/openapi/service/SpcdeInfoService/get24DivisionsInfo', {
-      // "solYear": year.toString(),
-      "solYear": "1972",
-      "solMonth": "04",
-      "_type": 'json',
-      "ServiceKey": 'LeI/gxYl59kl1uxTdC3NPxkzk5UkLRKaF35z8CjN5XgxwIPwhYl9n+jR8LR+8rKLa6tsw/qOArBE2cH1saRJoA==',
-    });
-
-    var result = await get(uri);
-
-    List items = jsonDecode(result.body)['response']['body']['items']['item'] as List;
-    List<int> list = [];
-    for (var item in items) {
-      list.add(item['locdate']);
-    }
-
-    var date;
-    for (var i = 0; i < list.length; i++) {
-      if (20220812 < list[i]) {
-        date = list[i - 1];
-        break;
+    Map<int, int> map = {};
+    for (var i = 0; i < table3[b]!.keys.length; i++) {
+      int? key = table3[b]!.keys.toList()[i];
+      if (key != null) {
+        map[i] = key;
       }
     }
+    var sortedByKeyMap = Map.fromEntries(map.entries.toList()..sort((e1, e2) => e1.value.compareTo(e2.value)));
+    var index = sortedByKeyMap.entries.toList().indexWhere((element) => element.value > difference);
+    print(sortedByKeyMap);
+    print(index);
+    // print(sortedByKeyMap.keys.toList()[index]);
   }
 
   void calcGraph3() {
@@ -151,6 +324,8 @@ class Fortune {
       ...[table3[u]!.values.toList()],
       ...[table3[t]!.values.toList()],
     ];
+    print("graph3");
+    print(graph3);
   }
 
   void calcDay() {
@@ -235,5 +410,5 @@ final fortuneProvider = Provider<Fortune?>((ref) {
   if (info == null) {
     return null;
   }
-  return Fortune(info);
+  return Fortune(info, ref.watch(solarDatesProvider).dates);
 });
