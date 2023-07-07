@@ -12,6 +12,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:http/http.dart';
 import 'package:klc/klc.dart';
 import 'package:lunar/calendar/Lunar.dart';
+import 'package:collection/collection.dart';
 
 class Fortune {
   late final DateTime date;
@@ -32,7 +33,10 @@ class Fortune {
   late String a;
   late String b;
   late List<String> graph1;
+  late List<String> graph2;
   late List<List> graph3;
+  late String graph4_1 = "";
+  late String graph4_2;
   late List<String> graph5;
   late List<List> graph6 = [[], [], [], []];
   late List<String> graph7 = [];
@@ -40,11 +44,14 @@ class Fortune {
   late String graph9;
   late String graph10;
   late List<String> graph11;
-  late List<String> graph14;
+  late List<String> graph12;
+  late String graph13;
+  late List<List<String>> graph14;
   late List<String> graph15;
   late List<String> graph16;
   late List<DateTime> solarDates;
   late DateTime solarDate;
+  late DateTime solarDate2;
 
   Fortune(Info info, List<DateTime> dates) {
     year = info.year;
@@ -54,12 +61,16 @@ class Fortune {
     minutes = info.minuite;
     gender = info.gender;
     date = DateTime(info.year, info.month, info.day, info.hour, info.minuite);
-    var lunar = Lunar.fromDate(date);
-    lunarDate = DateTime(lunar.getYear(), lunar.getMonth(), lunar.getDay(), lunar.getHour(), lunar.getMinute());
-    print(lunarDate);
+    if (info.isLunar) {
+      lunarDate = date;
+    } else {
+      var lunar = Lunar.fromDate(date);
+      lunarDate = DateTime(lunar.getYear(), lunar.getMonth(), lunar.getDay(), lunar.getHour(), lunar.getMinute());
+    }
 
     var index = dates.indexWhere((element) => element.isAfter(lunarDate));
     solarDate = dates[index - 1];
+    solarDate2 = dates[index];
 
     //년의 간지
     s = sToEnglsh((info.year + 7) % 10);
@@ -70,7 +81,7 @@ class Fortune {
     //일의 간지
     calcDay();
     calcTime();
-    //역운 순운
+    // //역운 순운
     if (p == 'a' || p == 'c' || p == 'e' || p == 'g' || p == 'i') {
       if (gender == Gender.male) {
         reverse = false;
@@ -88,6 +99,7 @@ class Fortune {
     calcGraph1();
     calcGraph2();
     calcGraph3();
+    calcGraph4();
     calcGraph5();
     calcGraph6();
     calcGraph7();
@@ -95,9 +107,11 @@ class Fortune {
     calcGraph9();
     calcGraph10();
     calcGraph11();
+    calcGraph13();
     calcGraph14();
     calcGraph15();
     calcGraph16();
+    calcGraph12();
     // int p = (4*c+[c/4]+5n+[n/4]+[(3m+3)/5]+d+7)%10;
   }
 
@@ -235,19 +249,78 @@ class Fortune {
     graph11 = [table11[table11A[p]![0]][index], table11[table11A[p]![1]][index]];
   }
 
+  void calcGraph12() {
+    print("calcGraph12");
+    // ["a", "b", "m", "n"];
+    print(graph3);
+    var newGraph3 = List.from(graph3.expand((element) => [...element]))..removeWhere((element) => element == null);
+    var newGraph14 = List.from(graph14.expand((element) => [...element]))..removeWhere((element) => element == null);
+    print(newGraph3);
+    List<String> list = [
+      a,
+      b,
+      p,
+      q,
+      v,
+      u,
+      s,
+      t,
+      ...newGraph3,
+      ...newGraph14,
+    ];
+    graph12 = [];
+    print(list);
+    var minusPlus = [
+      ["a", "b", "m", "n"],
+      ["c", "d", "q", "p"],
+      ["e", "f", "o", "u", "l", 'r'],
+      ["g", "h", "s", "t"],
+      ["i", "j", "k", "v"],
+    ];
+    for (var aaa in minusPlus) {
+      var where = list.where((element) => aaa.contains(element));
+      print(where);
+      graph12.add(where.length.toString());
+    }
+    print(graph12);
+  }
+
+  void calcGraph13() {
+    if (reverse) {
+      var inHours = lunarDate.difference(solarDate).inHours;
+      var inDays = lunarDate.difference(solarDate).inDays;
+
+      if (inHours % 72 >= 36) {
+        inDays += 1;
+      }
+      graph13 = inDays.toString();
+
+      // if (lunarDate.difference(solarDate).inHours % 24 >= 12) {
+      //   inDays += 1;
+      // }
+    } else {
+      var inHours = solarDate2.difference(lunarDate).inHours;
+      var inDays = solarDate2.difference(lunarDate).inDays;
+      if (inHours % 72 >= 36) {
+        inDays += 1;
+      }
+      graph13 = inDays.toString();
+    }
+  }
+
   void calcGraph14() {
     graph14 = [
-      '',
-      '',
-      '',
-      '',
-      '',
-      '',
-      '',
-      '',
-      '',
-      '',
-      v + u,
+      [],
+      [],
+      [],
+      [],
+      [],
+      [],
+      [],
+      [],
+      [],
+      [],
+      [v, u],
     ];
     var aa = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j'];
     var bb = ['m', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'k', 'l'];
@@ -268,7 +341,7 @@ class Fortune {
       } else {
         index2 += 1;
       }
-      graph14[i] = aa[index1] + bb[index2];
+      graph14[i] = [aa[index1], bb[index2]];
     }
   }
 
@@ -281,7 +354,6 @@ class Fortune {
 
   void calcGraph16() {
     graph16 = [''];
-    print(graph14);
     for (var i = 0; i < 10; i++) {
       // print(
       //   table5[graph14[i][0]]!.split('').indexWhere((element) => element == graph14[i + 1][1]),
@@ -291,29 +363,34 @@ class Fortune {
       // graph16.add(table5List[table1[graph14[i][0]]])
       graph16.add(table5List[table5[graph14[i][0]]!.split('').indexWhere((element) => element == graph14[i + 1][1])]);
     }
-    print(graph16);
   }
 
   void calcGraph2() async {
-    //음력 변환부터
-    // graph3Table[b]!.keys;
-    print(lunarDate);
-    print(solarDate);
     var difference = lunarDate.difference(solarDate).inHours;
-    print(difference);
-
-    Map<int, int> map = {};
-    for (var i = 0; i < table3[b]!.keys.length; i++) {
-      int? key = table3[b]!.keys.toList()[i];
-      if (key != null) {
-        map[i] = key;
+    graph2 = [];
+    [b, q, u, t].forEach((element) {
+      Map<int, int> map = {};
+      for (var i = 0; i < table3[element]!.keys.length; i++) {
+        int? key = table3[element]!.keys.toList()[i];
+        if (key != null) {
+          map[i] = key;
+        }
       }
-    }
-    var sortedByKeyMap = Map.fromEntries(map.entries.toList()..sort((e1, e2) => e1.value.compareTo(e2.value)));
-    var index = sortedByKeyMap.entries.toList().indexWhere((element) => element.value > difference);
-    print(sortedByKeyMap);
-    print(index);
-    // print(sortedByKeyMap.keys.toList()[index]);
+
+      var sortedByKeyMap = Map.fromEntries(map.entries.toList()..sort((e1, e2) => e1.value.compareTo(e2.value)));
+      var index = sortedByKeyMap.entries.toList().indexWhere((element) => element.value > difference);
+
+      graph2.add(table3[element]?[sortedByKeyMap.entries.toList()[index].value] ?? "");
+      if (element == u) {
+        if (sortedByKeyMap.entries.toList()[index].key == 0) {
+          graph4_1 = "초";
+        } else if (sortedByKeyMap.entries.toList()[index].key == 1) {
+          graph4_1 = "중";
+        } else {
+          graph4_1 = "정";
+        }
+      }
+    });
   }
 
   void calcGraph3() {
@@ -324,8 +401,14 @@ class Fortune {
       ...[table3[u]!.values.toList()],
       ...[table3[t]!.values.toList()],
     ];
-    print("graph3");
-    print(graph3);
+  }
+
+  void calcGraph4() {
+    var dif = lunarDate.difference(solarDate).inMinutes;
+    var day = (dif / 1440).floor();
+    var hour = ((dif - (1440 * day)) / 60).floor();
+    var minuite = dif - (hour * 60 + day * 1440);
+    graph4_2 = "$day일 $hour시간 $minuite분";
   }
 
   void calcDay() {

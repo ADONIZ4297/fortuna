@@ -7,8 +7,14 @@ class Info {
   int day;
   int hour;
   int minuite;
+  DateTime date;
   Gender gender;
-  Info(this.year, this.month, this.day, this.hour, this.minuite, this.gender);
+  bool isLunar;
+  String name;
+  String phone;
+  String email;
+  Info(this.date, this.year, this.month, this.day, this.hour, this.minuite, this.gender, this.isLunar, this.name,
+      this.phone, this.email);
 }
 
 final infoProvider = StateProvider<Info?>((ref) {

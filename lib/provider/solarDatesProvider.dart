@@ -39,7 +39,6 @@ class SolarDates {
     }
     var bytes = File(path).readAsBytesSync();
     Excel excel = Excel.decodeBytes(bytes);
-    print(excel);
 
     for (var row in excel.tables["Sheet1"]!.rows) {
       var string = row[2]!.value.toString();

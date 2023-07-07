@@ -1,3 +1,7 @@
+import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
+import 'package:fortuna/service/extension.dart';
+
 String sToEnglsh(int num) {
   switch (num) {
     case 1:
@@ -56,7 +60,42 @@ String tToEnglsh(int num) {
   }
 }
 
+Color eToColor(String? e) {
+  switch (e) {
+    case 'a':
+    case 'b':
+    case 'm':
+    case 'n':
+      return HexColor("#3542BD");
+    case 'c':
+    case 'd':
+    case 'p':
+    case 'q':
+      return HexColor("#F24545");
+    case 'e':
+    case 'f':
+    case 'l':
+    case 'o':
+    case 'r':
+    case 'u':
+      return HexColor("#F5C242");
+    case 'g':
+    case 'h':
+    case 's':
+    case 't':
+      return Colors.white;
+    case 'i':
+    case 'j':
+    case 'k':
+    case 'v':
+      return HexColor("#404040");
+    default:
+      return Colors.black;
+  }
+}
+
 String eToChinese(String? e) {
+  // return e.toString();
   switch (e) {
     case "a":
       return "甲";

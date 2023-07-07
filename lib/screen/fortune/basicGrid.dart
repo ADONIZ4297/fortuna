@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:fortuna/provider/fortuneProvider.dart';
+import 'package:fortuna/service/extension.dart';
 import 'package:fortuna/service/numberToEnglish.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:styled_widget/styled_widget.dart';
@@ -22,7 +23,6 @@ class BasicGrid extends ConsumerWidget {
       fortune.t,
     ];
     return LayoutBuilder(builder: (context, layout) {
-      var width = layout.biggest.width;
       return GridView.builder(
         physics: const NeverScrollableScrollPhysics(),
         shrinkWrap: true,
@@ -34,10 +34,15 @@ class BasicGrid extends ConsumerWidget {
         itemBuilder: (BuildContext context, int index) {
           // return Text(list[index])
           return Text(eToChinese(list[index]))
+              .textColor(
+                eToColor(list[index]) == Colors.white || eToColor(list[index]) == HexColor("#F5C242")
+                    ? Colors.black
+                    : Colors.white,
+              )
               .fontSize(40)
-              .bold()
+              .fontWeight(FontWeight.w900)
               .center()
-              .decorated(color: Colors.amber, borderRadius: BorderRadius.circular(16))
+              .decorated(color: eToColor(list[index]), borderRadius: BorderRadius.circular(16))
               .padding(all: 10);
         }, //item 의 반목문 항목 형성
       );
