@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/cupertino.dart';
@@ -14,10 +15,34 @@ class MyProfileScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
-      appBar: AppBar(),
+      appBar: AppBar(
+        title: Text("Fortuna").textColor(Colors.white),
+      ),
       body: Column(
         children: [
-          const Text("홍길동"),
+          StreamBuilder(
+              stream: FirebaseFirestore.instance
+                  .collection("users")
+                  .doc(FirebaseAuth.instance.currentUser!.uid)
+                  .snapshots(),
+              builder: (context, snpashot) {
+                var user = snpashot.data?.data();
+                if (user == null) {
+                  return Container();
+                }
+                return Row(
+                  children: [
+                    Image.asset(
+                      "assets/images/profile.png",
+                      height: 70,
+                    ),
+                    const SizedBox(width: 20),
+                    Text(
+                      user['name']!,
+                    ).bold().fontSize(22),
+                  ],
+                ).padding(all: 30);
+              }),
           Button(
             child: Row(
               children: [

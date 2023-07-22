@@ -1,6 +1,8 @@
 import 'dart:io';
 import 'dart:typed_data';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -190,6 +192,9 @@ class Home extends HookConsumerWidget {
                   child: const Text("저장 후 사주 확인").textColor(Colors.black).fontSize(18).bold().padding(all: 15).center(),
                 ),
                 onPressed: () {
+                  if (formKey.currentState?.validate() != true) {
+                    return;
+                  }
                   var year = birthController.text.substring(0, 4);
                   var month = birthController.text.substring(4, 6);
                   var day = birthController.text.substring(6, 8);
@@ -202,20 +207,23 @@ class Home extends HookConsumerWidget {
                     hour,
                     minuite,
                   );
-                  print(date);
-                  ref.read(infoProvider.notifier).state = Info(
+                  var info = Info(
+                    null,
                     date,
-                    int.parse(year),
-                    int.parse(month),
-                    int.parse(day),
-                    hour,
-                    minuite,
                     gender.value,
                     isLunar.value,
                     nameController.text,
                     phoneController.text,
                     emailController.text,
                   );
+
+                  FirebaseFirestore.instance
+                      .collection("users")
+                      .doc(FirebaseAuth.instance.currentUser!.uid)
+                      .collection("fortunes")
+                      .add(info.toMap());
+                  // .add(info.toMap());
+                  ref.read(infoProvider.notifier).state = info;
                   Navigator.push(
                     context,
                     CupertinoPageRoute(builder: (context) => const FortuneScreen()),
@@ -303,6 +311,9 @@ class Home extends HookConsumerWidget {
         Text(label).fontSize(15).bold(),
         TextFormField(
           controller: controller,
+          validator: (value) {
+            return "빈칸을 채워주세요";
+          },
           style: const TextStyle(color: Colors.white, fontSize: 16),
           cursorColor: Colors.white,
           decoration: InputDecoration(

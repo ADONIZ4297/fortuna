@@ -21,12 +21,12 @@ class FortuneScreen extends ConsumerWidget {
         title: const Text("사주확인").textColor(Colors.white),
       ),
       body: ListView(
-        children: const [
-          Profile(),
-          Graph1(),
-          BasicGrid(),
-          FortuneTable(),
-          YearMonthDay(),
+        children: [
+          Profile(info: ref.read(infoProvider)!),
+          const Graph1(),
+          const BasicGrid(),
+          const FortuneTable(),
+          const YearMonthDay(),
         ],
       ),
     );

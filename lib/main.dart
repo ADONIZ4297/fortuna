@@ -17,10 +17,12 @@ import 'package:fortuna/service/button.dart';
 import 'package:fortuna/service/color.dart';
 import 'package:fortuna/service/extension.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:kakao_flutter_sdk/kakao_flutter_sdk_talk.dart' as kakao;
 import 'package:styled_widget/styled_widget.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  kakao.KakaoSdk.init(nativeAppKey: '11f56f0ee76531a7e7a7173ec9c11135');
   await Firebase.initializeApp();
   runApp(const ProviderScope(child: MyApp()));
 }

@@ -54,13 +54,13 @@ class Fortune {
   late DateTime solarDate2;
 
   Fortune(Info info, List<DateTime> dates) {
-    year = info.year;
-    month = info.month;
-    day = info.day;
-    hour = info.hour;
-    minutes = info.minuite;
+    year = info.date.year;
+    month = info.date.month;
+    day = info.date.day;
+    hour = info.date.hour;
+    minutes = info.date.minute;
     gender = info.gender;
-    date = DateTime(info.year, info.month, info.day, info.hour, info.minuite);
+    date = info.date;
     if (info.isLunar) {
       lunarDate = date;
     } else {
@@ -73,11 +73,11 @@ class Fortune {
     solarDate2 = dates[index];
 
     //년의 간지
-    s = sToEnglsh((info.year + 7) % 10);
-    t = tToEnglsh((info.year + 9) % 12);
+    s = sToEnglsh((year + 7) % 10);
+    t = tToEnglsh((year + 9) % 12);
     //월의 간지
-    v = sToEnglsh((2 * info.year + info.month + 3) % 10);
-    u = tToEnglsh((info.month + 1) % 12);
+    v = sToEnglsh((2 * year + month + 3) % 10);
+    u = tToEnglsh((month + 1) % 12);
     //일의 간지
     calcDay();
     calcTime();

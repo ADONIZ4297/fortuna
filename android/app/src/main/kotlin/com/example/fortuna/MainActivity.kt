@@ -1,4 +1,4 @@
-package com.example.fortuna
+package com.PODO.fortuna
 
 import io.flutter.embedding.android.FlutterActivity
 

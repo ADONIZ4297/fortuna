@@ -54,7 +54,7 @@ class DefaultFirebaseOptions {
 
   static const FirebaseOptions android = FirebaseOptions(
     apiKey: 'AIzaSyBotCG5llRvYl8Fv0TBrFro3evWByxK5Wg',
-    appId: '1:929727902574:android:d6deae412655a3cab4c77f',
+    appId: '1:929727902574:android:495eeb53297528dab4c77f',
     messagingSenderId: '929727902574',
     projectId: 'fortuna-b83b6',
     storageBucket: 'fortuna-b83b6.appspot.com',
@@ -62,21 +62,23 @@ class DefaultFirebaseOptions {
 
   static const FirebaseOptions ios = FirebaseOptions(
     apiKey: 'AIzaSyBV7OVoZyDatsEI2uEZPWjQtlzPn7SIk-8',
-    appId: '1:929727902574:ios:58e3b72b083b4a77b4c77f',
+    appId: '1:929727902574:ios:92959f827ef42844b4c77f',
     messagingSenderId: '929727902574',
     projectId: 'fortuna-b83b6',
     storageBucket: 'fortuna-b83b6.appspot.com',
-    iosClientId: '929727902574-si8fqugsdbljp6f9lo413njdof303om7.apps.googleusercontent.com',
-    iosBundleId: 'com.example.fortuna',
+    androidClientId: '929727902574-ar8j0pv90de3vn54jesvfucqbmcdskd1.apps.googleusercontent.com',
+    iosClientId: '929727902574-i8dda43cji74aei22to2ukamo7tfc19o.apps.googleusercontent.com',
+    iosBundleId: 'com.PODO.fortuna',
   );
 
   static const FirebaseOptions macos = FirebaseOptions(
     apiKey: 'AIzaSyBV7OVoZyDatsEI2uEZPWjQtlzPn7SIk-8',
-    appId: '1:929727902574:ios:ff3c5446541f4be8b4c77f',
+    appId: '1:929727902574:ios:6bbb265e7d881c4db4c77f',
     messagingSenderId: '929727902574',
     projectId: 'fortuna-b83b6',
     storageBucket: 'fortuna-b83b6.appspot.com',
-    iosClientId: '929727902574-nqaodqsg2170n5jvkedgb801ormppcmq.apps.googleusercontent.com',
-    iosBundleId: 'com.example.fortuna.RunnerTests',
+    androidClientId: '929727902574-ar8j0pv90de3vn54jesvfucqbmcdskd1.apps.googleusercontent.com',
+    iosClientId: '929727902574-eu6sbnlb11j37umgn49rvsrfou9sfrt5.apps.googleusercontent.com',
+    iosBundleId: 'com.PODO.fortuna.RunnerTests',
   );
 }

@@ -7,14 +7,14 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:929727902574:android:d6deae412655a3cab4c77f",
+        "mobilesdk_app_id": "1:929727902574:android:495eeb53297528dab4c77f",
         "android_client_info": {
-          "package_name": "com.example.fortuna"
+          "package_name": "com.PODO.fortuna"
         }
       },
       "oauth_client": [
         {
-          "client_id": "929727902574-54cv4igc7cmt8s9uk6n71av7gl9mqkf2.apps.googleusercontent.com",
+          "client_id": "929727902574-aftsgq63jkc8k1qedmq6j52hb8jivr0v.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
@@ -29,6 +29,57 @@
             {
               "client_id": "929727902574-54cv4igc7cmt8s9uk6n71av7gl9mqkf2.apps.googleusercontent.com",
               "client_type": 3
+            },
+            {
+              "client_id": "929727902574-nqaodqsg2170n5jvkedgb801ormppcmq.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.fortuna.RunnerTests"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:929727902574:android:d6deae412655a3cab4c77f",
+        "android_client_info": {
+          "package_name": "com.example.fortuna"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "929727902574-ar8j0pv90de3vn54jesvfucqbmcdskd1.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.fortuna",
+            "certificate_hash": "f2b30e456a4bf773442b381d696f93d6c8b75730"
+          }
+        },
+        {
+          "client_id": "929727902574-aftsgq63jkc8k1qedmq6j52hb8jivr0v.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBotCG5llRvYl8Fv0TBrFro3evWByxK5Wg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "929727902574-54cv4igc7cmt8s9uk6n71av7gl9mqkf2.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "929727902574-nqaodqsg2170n5jvkedgb801ormppcmq.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.fortuna.RunnerTests"
+              }
             }
           ]
         }
